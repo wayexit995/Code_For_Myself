@@ -88,12 +88,14 @@ input[type="button"]:active {
 	</style>
 	<script>
 		function extractText() {
-			var input = document.getElementById("input-field").value;
-			var regex = /id=(.*)/;
-			var output = "https://anihdplay.com/download?id=" + input.match(regex)[1];
-			var win = window.open(output, '_blank');
-			win.focus();
-		}
+    var input = document.getElementById("input-field").value;
+    var regex = /id=(.*)/;
+    var output = "https://anihdplay.com/download?id=" + input.match(regex)[1];
+    var win = window.open(output, '_blank');
+    win.focus();
+    document.getElementById("input-field").value = "";
+}
+
 	</script>
 </head>
 <body>

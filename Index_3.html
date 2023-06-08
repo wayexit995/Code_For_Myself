@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Source Code Viewer</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #input-container {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 300px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #source-code {
+            width: 800px;
+            height: 500px;
+            border: 1px solid #ccc;
+            background-color: white;
+            overflow: auto;
+            white-space: pre;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+    <script>
+        function showSourceCode() {
+            var baseUrl = document.getElementById("input-url").value;
+            var episodeNumber = document.getElementById("input-episode").value;
+            var url = baseUrl + episodeNumber;
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    var sourceCodeElement = document.getElementById("source-code");
+                    sourceCodeElement.textContent = data;
+
+                    var iframeSrc = extractIframeSrc(data);
+                    copyToClipboard(iframeSrc);
+                })
+                .catch(error => {
+                    console.log(error);
+                    var sourceCodeElement = document.getElementById("source-code");
+                    sourceCodeElement.textContent = "Error retrieving source code.";
+                });
+        }
+
+        function extractIframeSrc(sourceCode) {
+            var regex = /<iframe.*?src=["'](.*?)["']/;
+            var match = regex.exec(sourceCode);
+            if (match) {
+                return match[1];
+            }
+            return "";
+        }
+
+        function copyToClipboard(text) {
+            var textarea = document.createElement("textarea");
+            textarea.value = "https:" + text; // Add "https:" before the text
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+        }
+    </script>
+</head>
+<body>
+	
+    <div id="container">
+        <h1>Website Source Code Viewer</h1>
+        <div id="input-container">
+            <label for="input-url">Enter base URL:</label>
+            <input type="text" id="input-url" placeholder="https://anihdplay.com/videos/kono-subarashii-sekai-ni-bakuen-wo-dub-episode-" oninput="removeNumbersFromURL()">
+
+            <br>
+            <label for="input-episode">Enter episode number:</label>
+            <input type="number" id="input-episode" value="1">
+            <br>
+            <button onclick="showSourceCode()">View Source Code</button>
+        </div>
+        <pre id="source-code"></pre>
+    </div>
+	<script>
+    function removeNumbersFromURL() {
+        var input = document.getElementById("input-url");
+        input.value = input.value.replace(/[0-9]/g, "");
+    }
+</script>
+
+</body>
+</html>

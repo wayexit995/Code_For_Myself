@@ -129,9 +129,19 @@
         }
 		
 		function removeNumbersFromURL() {
-			var input = document.getElementById("input-url");
-			input.value = input.value.replace(/[0-9]/g, "");
-		}
+    var input = document.getElementById("input-url");
+    var numberElement = document.getElementById("removed-number");
+    var url = input.value;
+    var removedNumber = url.replace(/\d+$/, ""); // Remove any numbers at the end of the string
+
+    if (removedNumber !== url) {
+        var removedDigits = url.replace(removedNumber, "");
+        numberElement.textContent = "Removed Number: " + removedDigits;
+        input.value = removedNumber;
+    } else {
+        numberElement.textContent = "No Number Found";
+    }
+}
 		
 		function extractText() {
 			var input = document.getElementById("input-field").value;
@@ -152,6 +162,7 @@
     <div id="container">
         <h1>Website Source Code Viewer</h1>
         <div id="input-container">
+		<p id="removed-number"></p>
             <label for="input-url">Enter base URL:</label>
             <input type="text" id="input-url" placeholder="https://anihdplay.com/videos/kono-subarashii-sekai-ni-bakuen-wo-dub-episode-" oninput="removeNumbersFromURL()">
 

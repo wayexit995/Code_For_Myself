@@ -131,16 +131,18 @@
 		function removeNumbersFromURL() {
     var input = document.getElementById("input-url");
     var numberElement = document.getElementById("removed-number");
-    var number = input.value.match(/\d+/); // Extract the number from the input value
+    var url = input.value;
+    var removedNumber = url.replace(/\d+$/, ""); // Remove any numbers at the end of the string
 
-    if (number) {
-        numberElement.textContent = "Removed Number: " + number[0];
+    if (removedNumber !== url) {
+        var removedDigits = url.replace(removedNumber, "");
+        numberElement.textContent = "Removed Number: " + removedDigits;
+        input.value = removedNumber;
     } else {
         numberElement.textContent = "No Number Found";
     }
-
-    input.value = input.value.replace(/[0-9]/g, "");
 }
+
 
 		
 		function extractText() {

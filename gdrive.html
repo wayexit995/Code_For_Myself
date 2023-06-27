@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Input Output Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="button"] {
+            display: inline-block;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function extractText() {
+            var input = document.getElementById("input-field").value;
+            var regex = /\/d\/([^\/]*)\/view/;
+            var match = input.match(regex);
+
+            if (match) {
+                var fileId = match[1];
+                var output = "https://drive.google.com/uc?id=" + fileId + "&export=download&confirm=t";
+                var win = window.open(output, '_blank');
+                win.focus();
+            }
+
+            document.getElementById("input-field").value = "";
+        }
+
+        function extractText1() {
+            var input = document.getElementById("input-field").value;
+            var regex = /\/d\/([^\/]*)\/view/;
+            var match = input.match(regex);
+
+            if (match) {
+                var fileId = match[1];
+                var output = "https://drive.google.com/uc?id=" + fileId;
+                var win = window.open(output, '_blank');
+                win.focus();
+            }
+
+            document.getElementById("input-field").value = "";
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <label for="input-field">Gdrive link</label>
+        <input type="text" id="input-field" name="input-field"><br><br>
+        <input type="button" value="Download" onclick="extractText()">
+        <input type="button" value="Show Download Page" onclick="extractText1()">
+    </form>
+</body>
+</html>

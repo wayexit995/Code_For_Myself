@@ -88,6 +88,17 @@
 			cursor: pointer;
 			font-size: 14px;
 		}
+		#popup-window {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  font-size: 14px;
+  z-index: 9999;
+}
+
     </style>
     <script>
         function showSourceCode() {
@@ -120,13 +131,22 @@
         }
 
         function copyToClipboard(text) {
-            var textarea = document.createElement("textarea");
-            textarea.value = "https:" + text; // Add "https:" before the text
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-        }
+  var textarea = document.createElement("textarea");
+  textarea.value = "https:" + text; // Add "https:" before the text
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+
+  var popupWindow = document.getElementById("popup-window");
+  popupWindow.textContent = "Copied to clipboard: " + text;
+  popupWindow.style.visibility = "visible";
+
+  setTimeout(function () {
+    popupWindow.style.visibility = "hidden";
+  }, 3000);
+}
+
 		
 		function removeNumbersFromURL() {
     var input = document.getElementById("input-url");
@@ -164,6 +184,8 @@
     <div id="container">
         <h1>Website Source Code Viewer</h1>
         <div id="input-container">
+		<div id="popup-window"></div>
+
 		<p id="removed-number"></p>
             <label for="input-url">Enter base URL:</label>
             <input type="text" id="input-url" placeholder="https://example.com/videos/kono-subarashii-sekai-ni-shukufuku-wo-kono-subarashii-choker-ni-shukufuku-wo-dub-episode-" oninput="removeNumbersFromURL()">

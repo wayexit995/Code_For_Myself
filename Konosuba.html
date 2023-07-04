@@ -208,29 +208,6 @@ function enablePasteButton() {
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        var pasteButton = document.getElementById("paste-button");
-
-        document.addEventListener("paste", function(e) {
-            var clipboardData = e.clipboardData || window.clipboardData;
-            var pastedText = clipboardData.getData("text");
-
-            if (pastedText && pastedText.trim() !== "") {
-                enablePasteButton();
-            }
-        });
-
-        pasteButton.addEventListener("click", function() {
-            navigator.clipboard.readText().then(function(text) {
-                var inputField = document.getElementById("input-field");
-                inputField.value = text;
-            });
-        });
-    });
-
-
-	    // what the hell
-
-	    document.addEventListener("DOMContentLoaded", function() {
             var pasteButton = document.getElementById("paste-button");
 
             pasteButton.addEventListener("click", function() {
@@ -283,8 +260,8 @@ function enablePasteButton() {
     <input type="text" id="input-field" name="input-field">
     <br>
 	<div class="konosuba">
-		<input type="button" style="visibility: hidden;" value="Paste from Clipboard" onclick="pasteFromClipboard()" id="paste-button" disabled> 
-		<button style="visibility: hidden; padding: 10px 10px;">I</button>
+		<input type="button" style="display: none;" value="Paste from Clipboard" onclick="pasteFromClipboard()" id="paste-button" disabled> 
+		<button style="visibility: hidden; padding: 10px 10px; display: none;">I</button>
 		<input type="button" value="Extract" onclick="extractText()"> 
 	</div>
 </div>

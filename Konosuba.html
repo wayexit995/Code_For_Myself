@@ -226,6 +226,26 @@ function enablePasteButton() {
             });
         });
     });
+
+
+	    // what the hell
+
+	    document.addEventListener("DOMContentLoaded", function() {
+            var pasteButton = document.getElementById("paste-button");
+
+            pasteButton.addEventListener("click", function() {
+                navigator.permissions.query({ name: "clipboard-read" }).then(function(result) {
+                    if (result.state === "granted" || result.state === "prompt") {
+                        navigator.clipboard.readText().then(function(text) {
+                            var inputField = document.getElementById("input-field");
+                            inputField.value = text;
+                        });
+                    } else if (result.state === "denied") {
+                        // Handle denied state
+                    }
+                });
+            });
+        });
     </script>
 </head>
 <body>

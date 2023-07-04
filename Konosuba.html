@@ -99,6 +99,13 @@
   z-index: 9999;
 }
 
+#konosuba	{
+	display: ;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+}
+
     </style>
     <script>
         function showSourceCode() {
@@ -178,6 +185,46 @@
 			}
 			document.getElementById("input-field").value = "";
 		}
+		
+		function incrementEpisode() {
+    var episodeInput = document.getElementById("input-episode");
+    var currentEpisode = parseInt(episodeInput.value);
+    episodeInput.value = currentEpisode + 1;
+}
+
+function decrementEpisode() {
+    var episodeInput = document.getElementById("input-episode");
+    var currentEpisode = parseInt(episodeInput.value);
+    if (currentEpisode > 1) {
+        episodeInput.value = currentEpisode - 1;
+    }
+}
+
+
+function enablePasteButton() {
+        var pasteButton = document.getElementById("paste-button");
+        pasteButton.disabled = false;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var pasteButton = document.getElementById("paste-button");
+
+        document.addEventListener("paste", function(e) {
+            var clipboardData = e.clipboardData || window.clipboardData;
+            var pastedText = clipboardData.getData("text");
+
+            if (pastedText && pastedText.trim() !== "") {
+                enablePasteButton();
+            }
+        });
+
+        pasteButton.addEventListener("click", function() {
+            navigator.clipboard.readText().then(function(text) {
+                var inputField = document.getElementById("input-field");
+                inputField.value = text;
+            });
+        });
+    });
     </script>
 </head>
 <body>
@@ -193,16 +240,33 @@
             <label for="input-episode">Enter episode number:</label>
             <input type="number" id="input-episode" value="1">
             <br>
+			<br>
             <button onclick="showSourceCode()">Copy to Clipboard</button>
+			
+			<button style="visibility: hidden;">Invisible</button>
+			
+			<button onclick="decrementEpisode()">-</button>
+			
+			<button style="visibility: hidden; padding: 10px 5px;">I</button>
+			
+			<button onclick="incrementEpisode()">+</button>
+			
         </div>
         
     </div>
 	
+	
 	<div class="form-container">
-		<label for="input-field">Input:</label>
-		<input type="text" id="input-field" name="input-field"><br><br>
-		<input type="button" value="Extract" onclick="extractText()">
+    <label for="input-field">Input:</label>
+    <input type="text" id="input-field" name="input-field">
+    <br>
+	<div class="konosuba">
+		<input type="button" value="Paste from Clipboard" onclick="pasteFromClipboard()" id="paste-button" disabled> 
+		<button style="visibility: hidden; padding: 10px 10px;">I</button>
+		<input type="button" value="Extract" onclick="extractText()"> 
 	</div>
+</div>
+	
 	<pre style="visibility: hidden;" id="source-code"></pre>
 </body>
 </html>
